@@ -56,27 +56,6 @@ public class MixinMinecraft {
     @Shadow
     private void updateDisplayMode() {}
 
-
-
-    @Overwrite
-    private void createDisplay() throws LWJGLException {
-        Display.setResizable(true);
-        Display.setTitle("Minecraft 1.8.9 - "+ OPacketFix.NAME+" v"+OPacketFix.VERSION+" By WaWa");
-        try {
-            Display.create((new PixelFormat()).withDepthBits(24));
-        } catch (LWJGLException lwjglexception) {
-            logger.error("Couldn't set pixel format", lwjglexception);
-            try {
-                Thread.sleep(1000L);
-            } catch (InterruptedException e) {
-                logger.error("Error, InterruptedException");
-            }
-            if (this.fullscreen) {
-                this.updateDisplayMode();
-            }
-            Display.create();
-        }
-    }
     @Inject(method = "startGame", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;checkGLError(Ljava/lang/String;)V", ordinal = 2, shift = At.Shift.AFTER))
     private void startGame(CallbackInfo callbackInfo) {
         OPacketFix.startGame();
